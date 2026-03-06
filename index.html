@@ -163,149 +163,71 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Nave vs Asteroides</title>
+    <title>Missão Espacial</title>
     <style>
         body {
             margin: 0;
-            background: #050505;
+            background: #020205;
             color: white;
-            font-family: sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
+            user-select: none;
         }
 
-        #game-container {
+        #game-canvas {
             position: relative;
             width: 100vw;
             height: 100vh;
-            border: 2px solid #333;
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
         }
 
-        #player {
+        /* Estrelas de fundo */
+        .star {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: cyan;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            bottom: 20px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: moveStar linear infinite;
+        }
+
+        @keyframes moveStar {
+            from { transform: translateY(-10vh); }
+            to { transform: translateY(110vh); }
+        }
+
+        #rocket {
+            position: absolute;
+            font-size: 50px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
+            transition: left 0.1s ease-out;
+            cursor: none;
         }
 
-        .bullet {
+        .laser {
             position: absolute;
             width: 4px;
             height: 20px;
-            background: red;
-            border-radius: 2px;
+            background: #ff004c;
+            box-shadow: 0 0 10px #ff004c;
+            border-radius: 5px;
         }
 
         .asteroid {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: #888;
-            border-radius: 50%;
+            font-size: 40px;
         }
 
-        #score {
+        #ui {
             position: absolute;
-            top: 15px;
-            left: 10px;
-            font-size: 20px;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <div id="score">Pontos: 0</div>
-    <div id="game-container">
-        <div id="player"></div>
-    </div>
-
-<script>
-    const container = document.getElementById('game-container');
-    const player = document.getElementById('player');
-    const scoreElement = document.getElementById('score');
-    
-    let score = 0;
-    let playerX = window.innerWidth / 2;
-
-    // Movimentação do Mouse
-    window.addEventListener('mousemove', (e) => {
-        playerX = e.clientX;
-        player.style.left = playerX + 'px';
-    });
-
-    // Atirar ao clicar
-    window.addEventListener('click', () => {
-        const bullet = document.createElement('div');
-        bullet.classList.add('bullet');
-        bullet.style.left = (playerX - 2) + 'px';
-        bullet.style.bottom = '60px';
-        container.appendChild(bullet);
-
-        // Lógica do movimento do tiro
-        let bulletMove = setInterval(() => {
-            let bBottom = parseInt(bullet.style.bottom);
-            bullet.style.bottom = (bBottom + 10) + 'px';
-
-            // Remover tiro se sair da tela
-            if (bBottom > window.innerHeight) {
-                bullet.remove();
-                clearInterval(bulletMove);
-            }
-
-            // Colisão com asteroides
-            const asteroids = document.querySelectorAll('.asteroid');
-            asteroids.forEach(ast => {
-                if (isColliding(bullet, ast)) {
-                    ast.remove();
-                    bullet.remove();
-                    clearInterval(bulletMove);
-                    score += 10;
-                    scoreElement.innerText = `Pontos: ${score}`;
-                }
-            });
-        }, 20);
-    });
-
-    // Gerar Asteroides
-    setInterval(() => {
-        const asteroid = document.createElement('div');
-        asteroid.classList.add('asteroid');
-        asteroid.style.left = Math.random() * (window.innerWidth - 40) + 'px';
-        asteroid.style.top = '-50px';
-        container.appendChild(asteroid);
-
-        let astMove = setInterval(() => {
-            let aTop = parseInt(asteroid.style.top);
-            asteroid.style.top = (aTop + 5) + 'px';
-
-            if (aTop > window.innerHeight) {
-                asteroid.remove();
-                clearInterval(astMove);
-            }
-
-            // Game Over simples (colisão com player)
-            if (isColliding(player, asteroid)) {
-                alert("Game Over! Pontos: " + score);
-                location.reload(2);
-            }
-        }, 30);
-    }, 1000);
-
-    // Função de Detecção de Colisão
-    function isColliding(a, b) {
-        let aRect = a.getBoundingClientRect();
-        let bRect = b.getBoundingClientRect();
-        return !(
-            aRect.top > bRect.bottom ||
-            aRect.bottom < bRect.top ||
-            aRect.right < bRect.left ||
-            aRect.left > bRect.right
-        );
-    }
-</script>
-</body>
-</html>
-
+    <div id="ui">
+        <div id="score">SCORE: 000</div>
