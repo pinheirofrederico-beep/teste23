@@ -158,130 +158,136 @@
 </body>
 </html>
 
-<div class="game-container">
-  <button id="solar-toggle" class="solar-btn">
-    <div class="sun"></div>
-    <div class="planet"></div>
-    <span class="label">Ativar Sistema Solar</span>
-  </button>
-  
-  <p id="status">Modo: Estático</p>
-</div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Asteroid Destroyer</title>
+    <style>
+        body { background: #0a0a0a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        
+        /* O Botão Inicial */
+        #start-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff0055, #7000ff);
+            border: none;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(112, 0, 255, 0.5);
+            transition: transform 0.2s;
+        }
+        #start-btn:hover { transform: scale(1.1); }
 
-<style>
-  :root {
-    --space-bg: #f0f2f5;
-    --sun-color: #ff9d00;
-    --planet-color: #3498db;
-    --text-main: #2c3e50;
-    --orbit-speed: 0s;
-  }
+        /* Tela do Jogo */
+        #game-container { display: none; position: relative; }
+        canvas { background: #000; border: 2px solid #333; cursor: crosshair; }
+        #score { position: absolute; top: 10px; left: 10px; font-size: 20px; }
+    </style>
+</head>
+<body>
 
-  [data-theme="space"] {
-    --space-bg: #0b0e14;
-    --sun-color: #ffcc00;
-    --planet-color: #2ecc71;
-    --text-main: #ecf0f1;
-    --orbit-speed: 3s; /* Inicia a órbita */
-  }
+    <button id="start-btn" onclick="startGame()">INICIAR MISSÃO ESPACIAL</button>
 
-  body {
-    background-color: var(--space-bg);
-    color: var(--text-main);
-    transition: background 1s ease;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-  }
+    <div id="game-container">
+        <div id="score">Pontos: 0</div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
 
-  .game-container { text-align: center; }
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('start-btn');
+        const gameContainer = document.getElementById('game-container');
+        const scoreElement = document.getElementById('score');
 
-  /* Estilização do Botão/Orbital */
-  .solar-btn {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    background: transparent;
-    border: 2px dashed rgba(128, 128, 128, 0.3);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.5s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+        let score = 0;
+        let ship, bullets, asteroids, animationId;
 
-  .sun {
-    width: 40px;
-    height: 40px;
-    background: var(--sun-color);
-    border-radius: 50%;
-    box-shadow: 0 0 20px var(--sun-color);
-    transition: 0.5s;
-  }
+        function startGame() {
+            startBtn.style.display = 'none';
+            gameContainer.style.display = 'block';
+            canvas.width = 800;
+            canvas.height = 600;
+            
+            ship = { x: canvas.width/2, y: canvas.height - 50, w: 30, h: 30 };
+            bullets = [];
+            asteroids = [];
+            score = 0;
+            
+            spawnAsteroids();
+            update();
+        }
 
-  .planet {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: var(--planet-color);
-    border-radius: 50%;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    /* A mágica da órbita */
-    transform-origin: center 75px; 
-    animation: orbit var(--orbit-speed) linear infinite;
-  }
+        // Lógica de movimento e tiro
+        window.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            ship.x = e.clientX - rect.left - ship.w/2;
+        });
 
-  @keyframes orbit {
-    from { transform: translateX(-50%) rotate(0deg); }
-    to { transform: translateX(-50%) rotate(360deg); }
-  }
+        window.addEventListener('mousedown', () => {
+            bullets.push({ x: ship.x + ship.w/2, y: ship.y, speed: 7 });
+        });
 
-  .label {
-    position: absolute;
-    bottom: -40px;
-    white-space: nowrap;
-    font-weight: bold;
-    color: var(--text-main);
-  }
+        function spawnAsteroids() {
+            setInterval(() => {
+                asteroids.push({
+                    x: Math.random() * (canvas.width - 30),
+                    y: -30,
+                    size: 20 + Math.random() * 30,
+                    speed: 2 + Math.random() * 3
+                });
+            }, 1000);
+        }
 
-  /* Feedback de clique no game */
-  .solar-btn:active .sun {
-    transform: scale(1.2);
-  }
-</style>
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-<script>
-  const btn = document.getElementById('solar-toggle');
-  const status = document.getElementById('status');
-  let speed = 3;
+            // Desenhar Nave (Triângulo)
+            ctx.fillStyle = '#00f2ff';
+            ctx.beginPath();
+            ctx.moveTo(ship.x + ship.w/2, ship.y);
+            ctx.lineTo(ship.x, ship.y + ship.h);
+            ctx.lineTo(ship.x + ship.w, ship.y + ship.h);
+            ctx.fill();
 
-  btn.addEventListener('click', () => {
-    const isSpace = document.documentElement.getAttribute('data-theme') === 'space';
-    
-    if (!isSpace) {
-      // Entra no modo Game/Escuro
-      document.documentElement.setAttribute('data-theme', 'space');
-      status.textContent = "Gravidade Ativa! Clique para acelerar.";
-      btn.querySelector('.label').textContent = "Modo Espacial";
-    } else {
-      // Mecânica de Mini Game: Acelera a cada clique
-      speed = speed > 0.5 ? speed - 0.5 : 3; // Aumenta velocidade até resetar
-      document.documentElement.style.setProperty('--orbit-speed', `${speed}s`);
-      status.textContent = `Velocidade da Órbita: ${(4 - speed).toFixed(1)}x`;
-      
-      // Se clicar muito rápido, pode "resetar" para o modo claro (opcional)
-      if(speed === 3) {
-         document.documentElement.removeAttribute('data-theme');
-         status.textContent = "Modo: Estático";
-         btn.querySelector('.label').textContent = "Ativar Sistema Solar";
-      }
-    }
-  });
-</script>
+            // Balas
+            bullets.forEach((b, i) => {
+                b.y -= b.speed;
+                ctx.fillStyle = '#ff0055';
+                ctx.fillRect(b.x - 2, b.y, 4, 10);
+                if(b.y < 0) bullets.splice(i, 1);
+            });
+
+            // Asteroides
+            asteroids.forEach((a, i) => {
+                a.y += a.speed;
+                ctx.fillStyle = '#888';
+                ctx.beginPath();
+                ctx.arc(a.x, a.y, a.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Colisão Bala vs Asteroide
+                bullets.forEach((b, bi) => {
+                    let dist = Math.hypot(b.x - a.x, b.y - a.y);
+                    if(dist < a.size) {
+                        asteroids.splice(i, 1);
+                        bullets.splice(bi, 1);
+                        score += 10;
+                        scoreElement.innerText = `Pontos: ${score}`;
+                    }
+                });
+
+                // Game Over básico
+                if(a.y > canvas.height) {
+                    alert("Fim de jogo! Pontuação: " + score);
+                    location.reload();
+                }
+            });
+
+            animationId = requestAnimationFrame(update);
+        }
+    </script>
+</body>
+</html>
