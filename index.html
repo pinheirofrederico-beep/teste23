@@ -158,3 +158,130 @@
 </body>
 </html>
 
+<div class="game-container">
+  <button id="solar-toggle" class="solar-btn">
+    <div class="sun"></div>
+    <div class="planet"></div>
+    <span class="label">Ativar Sistema Solar</span>
+  </button>
+  
+  <p id="status">Modo: Estático</p>
+</div>
+
+<style>
+  :root {
+    --space-bg: #f0f2f5;
+    --sun-color: #ff9d00;
+    --planet-color: #3498db;
+    --text-main: #2c3e50;
+    --orbit-speed: 0s;
+  }
+
+  [data-theme="space"] {
+    --space-bg: #0b0e14;
+    --sun-color: #ffcc00;
+    --planet-color: #2ecc71;
+    --text-main: #ecf0f1;
+    --orbit-speed: 3s; /* Inicia a órbita */
+  }
+
+  body {
+    background-color: var(--space-bg);
+    color: var(--text-main);
+    transition: background 1s ease;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .game-container { text-align: center; }
+
+  /* Estilização do Botão/Orbital */
+  .solar-btn {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: transparent;
+    border: 2px dashed rgba(128, 128, 128, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sun {
+    width: 40px;
+    height: 40px;
+    background: var(--sun-color);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--sun-color);
+    transition: 0.5s;
+  }
+
+  .planet {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: var(--planet-color);
+    border-radius: 50%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    /* A mágica da órbita */
+    transform-origin: center 75px; 
+    animation: orbit var(--orbit-speed) linear infinite;
+  }
+
+  @keyframes orbit {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+  }
+
+  .label {
+    position: absolute;
+    bottom: -40px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: var(--text-main);
+  }
+
+  /* Feedback de clique no game */
+  .solar-btn:active .sun {
+    transform: scale(1.2);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('solar-toggle');
+  const status = document.getElementById('status');
+  let speed = 3;
+
+  btn.addEventListener('click', () => {
+    const isSpace = document.documentElement.getAttribute('data-theme') === 'space';
+    
+    if (!isSpace) {
+      // Entra no modo Game/Escuro
+      document.documentElement.setAttribute('data-theme', 'space');
+      status.textContent = "Gravidade Ativa! Clique para acelerar.";
+      btn.querySelector('.label').textContent = "Modo Espacial";
+    } else {
+      // Mecânica de Mini Game: Acelera a cada clique
+      speed = speed > 0.5 ? speed - 0.5 : 3; // Aumenta velocidade até resetar
+      document.documentElement.style.setProperty('--orbit-speed', `${speed}s`);
+      status.textContent = `Velocidade da Órbita: ${(4 - speed).toFixed(1)}x`;
+      
+      // Se clicar muito rápido, pode "resetar" para o modo claro (opcional)
+      if(speed === 3) {
+         document.documentElement.removeAttribute('data-theme');
+         status.textContent = "Modo: Estático";
+         btn.querySelector('.label').textContent = "Ativar Sistema Solar";
+      }
+    }
+  });
+</script>
