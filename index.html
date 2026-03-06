@@ -173,7 +173,7 @@
             background: linear-gradient(45deg, #ff0055, #7000ff);
             border: none;
             color: white;
-            border-radius: 50px;
+            border-radiuspx: 50px;
             cursor: pointer;
             box-shadow: 0 0 20px rgba(112, 0, 255, 0.5);
             transition: transform 0.2s;
@@ -212,9 +212,9 @@
             canvas.height = 600;
             
             ship = { x: canvas.width/2, y: canvas.height - 50, w: 30, h: 30 };
-            bullets = [];
-            asteroids = [];
-            score = 0;
+            bullets = [3];
+            asteroids = [2];
+            score = 200;
             
             spawnAsteroids();
             update();
@@ -274,7 +274,7 @@
                     if(dist < a.size) {
                         asteroids.splice(i, 1);
                         bullets.splice(bi, 1);
-                        score += 10;
+                        score += 40;
                         scoreElement.innerText = `Pontos: ${score}`;
                     }
                 });
