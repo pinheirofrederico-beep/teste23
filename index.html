@@ -231,3 +231,247 @@
 
     <div id="ui">
         <div id="score">SCORE: 000</div>
+
+     <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Foguete Turbo - Auto Fire</title>
+    <style>
+        body {
+            margin: 0;
+            background: #020205;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        #game-canvas {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
+            display: none; /* Escondido até o start */
+        }
+
+        /* Tela Inicial */
+        #start-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #ff004c;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #ff004c;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: moveStar linear infinite;
+        }
+
+        @keyframes moveStar {
+            from { transform: translateY(-10vh); }
+            to { transform: translateY(110vh); }
+        }
+
+        #rocket {
+            position: absolute;
+            font-size: 50px;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            text-shadow: 0 10px 10px rgba(255, 165, 0, 0.5);
+        }
+
+        /* Foguinho do foguete */
+        #rocket::after {
+            content: '🔥';
+            position: absolute;
+            font-size: 20px;
+            bottom: -15px;
+            left: 15px;
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .laser {
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background: #00f2ff;
+            box-shadow: 0 0 10px #00f2ff;
+            border-radius: 5px;
+        }
+
+        .asteroid { position: absolute; font-size: 40px; }
+
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-screen">
+        <h1>🚀 FOGUETE TURBO</h1>
+        <p>Desvie dos meteoros e destrua tudo!</p>
+        <button onclick="startGame()">Iniciar Missão</button>
+    </div>
+
+    <div id="game-canvas">
+        <div id="score">PONTOS: 0</div>
+        <div id="rocket">🚀</div>
+    </div>
+
+<script>
+    const canvas = document.getElementById('game-canvas');
+    const startScreen = document.getElementById('start-screen');
+    const rocket = document.getElementById('rocket');
+    const scoreDisplay = document.getElementById('score');
+    
+    let score = 0;
+    let gameActive = false;
+    let rocketX = window.innerWidth / 2;
+
+    // Inicia o Jogo
+    function startGame() {
+        startScreen.style.display = 'none';
+        canvas.style.display = 'block';
+        gameActive = true;
+        
+        // Começa a atirar automaticamente
+        setInterval(autoFire, 200);
+        // Começa a gerar inimigos
+        setInterval(spawnAsteroid, 700);
+    }
+
+    // Movimento do Mouse
+    window.addEventListener('mousemove', (e) => {
+        if(!gameActive) return;
+        rocketX = e.clientX;
+        rocket.style.left = (rocketX - 25) + 'px';
+    });
+
+    // Função de Tiro Automático
+    function autoFire() {
+        if(!gameActive) return;
+
+        const laser = document.createElement('div');
+        laser.className = 'laser';
+        laser.style.left = (rocketX - 2) + 'px';
+        laser.style.bottom = '90px';
+        canvas.appendChild(laser);
+
+        const moveLaser = setInterval(() => {
+            let bottom = parseInt(laser.style.bottom);
+            laser.style.bottom = (bottom + 15) + 'px';
+
+            if (bottom > window.innerHeight) {
+                laser.remove();
+                clearInterval(moveLaser);
+            }
+
+            document.querySelectorAll('.asteroid').forEach(ast => {
+                if (checkCollision(laser, ast)) {
+                    createExplosion(ast.offsetLeft, ast.offsetTop);
+                    ast.remove();
+                    laser.remove();
+                    clearInterval(moveLaser);
+                    score += 10;
+                    scoreDisplay.innerText = `PONTOS: ${score}`;
+                }
+            });
+        }, 10);
+    }
+
+    // Criar Asteroides
+    function spawnAsteroid() {
+        if(!gameActive) return;
+
+        const ast = document.createElement('div');
+        ast.className = 'asteroid';
+        ast.innerHTML = ['☄️', '🌑', '👾'][Math.floor(Math.random() * 3)];
+        ast.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+        ast.style.top = '-60px';
+        canvas.appendChild(ast);
+
+        const moveAst = setInterval(() => {
+            if(!gameActive) { clearInterval(moveAst); return; }
+            
+            let top = parseInt(ast.style.top);
+            ast.style.top = (top + 5) + 'px';
+
+            if (top > window.innerHeight) {
+                ast.remove();
+                clearInterval(moveAst);
+            }
+
+            if (checkCollision(rocket, ast)) {
+                gameActive = false;
+                alert("MISSÃO ABORTADA! Pontuação final: " + score);
+                location.reload();
+            }
+        }, 20);
+    }
+
+    // Criar Estrelas
+    for (let i = 0; i < 60; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.width = Math.random() * 3 + 'px';
+        star.style.height = star.style.width;
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDuration = (Math.random() * 3 + 1) + 's';
+        document.body.appendChild(star);
+    }
+
+    function checkCollision(a, b) {
+        const r1 = a.getBoundingClientRect();
+        const r2 = b.getBoundingClientRect();
+        return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+    }
+
+    function createExplosion(x, y) {
+        const exp = document.createElement('div');
+        exp.style.position = 'absolute';
+        exp.style.left = x + 'px';
+        exp.style.top = y + 'px';
+        exp.innerHTML = '💥';
+        exp.style.fontSize = '40px';
+        canvas.appendChild(exp);
+        setTimeout
