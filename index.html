@@ -68,8 +68,8 @@
         }
 
         img {
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             object-fit: cover;
             /* Brilho azul para simular a atmosfera */
@@ -157,3 +157,34 @@
 
 </body>
 </html>
+
+<button class="meu-botao">Passe o mouse aqui</button>
+
+<style>
+  .meu-botao {
+    /* Estilo Base */
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* A Mágica da Transição */
+    /* Faz a cor de fundo e o tamanho mudarem em 0.3 segundos */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  /* Estado quando o mouse passa por cima */
+  .meu-botao:hover {
+    background-color: #2980b9; /* Escurece um pouco */
+    transform: scale(1.05);    /* Aumenta levemente o tamanho */
+  }
+
+  /* Estado quando o botão é clicado */
+  .meu-botao:active {
+    transform: scale(0.95);    /* Efeito de "apertar" */
+  }
+</style> 
