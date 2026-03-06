@@ -188,3 +188,84 @@
     transform: scale(0.95);    /* Efeito de "apertar" */
   }
 </style> 
+
+<button id="theme-toggle" class="theme-btn">
+  <span class="icon">🌙</span>
+  <span class="text">Modo Escuro</span>
+</button>
+
+<style>
+  /* 1. Definição das Cores (Variáveis) */
+  :root {
+    --bg-color: #f0f2f5;
+    --text-color: #1c1e21;
+    --btn-bg: #ffffff;
+    --btn-shadow: rgba(0, 0, 0, 0.1);
+  }
+
+  /* 2. Cores para o Modo Escuro */
+  [data-theme="dark"] {
+    --bg-color: #18191a;
+    --text-color: #e4e6eb;
+    --btn-bg: #3a3b3c;
+    --btn-shadow: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Aplicação das variáveis no corpo da página */
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.4s ease, color 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  /* 3. Estilização do Botão */
+  .theme-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px var(--btn-shadow);
+    
+    /* Transição suave em todas as propriedades */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .theme-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--btn-shadow);
+  }
+
+  .theme-btn:active {
+    transform: scale(0.95);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  const icon = btn.querySelector('.icon');
+  const text = btn.querySelector('.text');
+
+  btn.addEventListener('click', () => {
+    // Alterna o atributo no <html> ou <body>
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    
+    // Altera o ícone e o texto dinamicamente
+    icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    text.textContent = newTheme === 'dark' ? 'Modo Claro' : 'Modo Escuro';
+  });
+</script>
