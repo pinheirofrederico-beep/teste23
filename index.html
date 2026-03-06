@@ -193,24 +193,24 @@
 
         .bullet {
             position: absolute;
-            width: 4px;
+            width: 7px;
             height: 15px;
-            background: yellow;
+            background: red;
             border-radius: 2px;
         }
 
         .asteroid {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 20px;
+            height: 20px;
             background: #888;
             border-radius: 50%;
         }
 
         #score {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 20px;
+            left: 15px;
             font-size: 20px;
         }
     </style>
@@ -289,7 +289,7 @@
             // Game Over simples (colisão com player)
             if (isColliding(player, asteroid)) {
                 alert("Game Over! Pontos: " + score);
-                location.reload();
+                location.reload(2);
             }
         }, 30);
     }, 1000);
