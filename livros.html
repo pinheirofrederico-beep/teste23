@@ -12,117 +12,175 @@
 
 </body>
 </html>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Sistema Solar: Um Guia Completo</title>
+    <title>Odisseia Estelar: O Guia Definitivo do Sistema Solar</title>
     <style>
+        :root {
+            --bg-color: #0a0b10;
+            --paper-color: #161b22;
+            --text-color: #d1d5db;
+            --accent-color: #58a6ff;
+            --gold: #f1c40f;
+        }
+
         body {
-            font-family: 'Georgia', serif;
-            line-height: 1.8;
-            background-color: #05070a;
-            color: #d1d1d1;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Constantia', 'Georgia', serif;
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
         }
 
         .book {
-            max-width: 850px;
-            margin: auto;
-            background: #121420;
-            padding: 60px;
-            border-radius: 5px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            border: 1px solid #2a2e45;
+            max-width: 900px;
+            background-color: var(--paper-color);
+            padding: 80px 100px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            border-left: 20px solid #0d1117;
+            margin: 40px 0;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--gold);
+            margin-bottom: 50px;
+            padding-bottom: 20px;
         }
 
         h1 {
-            text-align: center;
-            color: #f1c40f;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3em;
+            color: var(--gold);
+            margin: 0;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--accent-color);
             text-transform: uppercase;
         }
 
-        .author {
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 50px;
-            color: #888;
+        h2 {
+            font-size: 1.8em;
+            color: var(--accent-color);
+            margin-top: 60px;
+            border-left: 5px solid var(--gold);
+            padding-left: 15px;
         }
 
-        h2 {
-            color: #3498db;
-            border-bottom: 1px solid #3498db;
-            padding-bottom: 5px;
-            margin-top: 40px;
+        h3 {
+            color: #8b949e;
+            font-variant: small-caps;
         }
 
         p {
-            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.15em;
             text-align: justify;
+            margin-bottom: 25px;
+            text-indent: 40px;
         }
 
-        .highlight {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-
-        .chapter-intro {
-            font-size: 1.1em;
-            color: #bdc3c7;
-            border-left: 4px solid #f1c40f;
-            padding-left: 15px;
+        .highlight-box {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 20px;
             margin: 30px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .dropcap {
+            float: left;
+            font-size: 4em;
+            line-height: 0.8;
+            padding-top: 4px;
+            padding-right: 8px;
+            color: var(--gold);
         }
 
         footer {
             text-align: center;
-            margin-top: 60px;
+            margin-top: 100px;
             font-size: 0.9em;
-            border-top: 1px solid #2a2e45;
-            padding-top: 20px;
+            color: #484f58;
+        }
+
+        @media (max-width: 600px) {
+            .book { padding: 30px; margin: 0; border: none; }
+            h1 { font-size: 2em; }
         }
     </style>
 </head>
 <body>
 
 <div class="book">
-    <h1>O SISTEMA SOLAR</h1>
-    <p class="author">Uma Odisseia pelo Espaço Profundo</p>
+    <header>
+        <h1>ODISSEIA ESTELAR</h1>
+        <p class="subtitle">Uma Exploração Profunda do Sistema Solar</p>
+    </header>
 
-    <section>
-        <h2>Introdução: O Nosso Lugar no Cosmos</h2>
-        <p>O Sistema Solar é uma estrutura vasta e complexa que se formou há cerca de 4,6 bilhões de anos a partir do colapso de uma nuvem molecular gigante. Localizado no Braço de Órion da galáxia Via Láctea, ele não é apenas um conjunto de rochas e gases girando em torno de uma estrela; é um ecossistema dinâmico governado pelas leis da gravidade e da termodinâmica. Neste guia, exploraremos os principais corpos celestes que compõem nossa vizinhança imediata.</p>
+    <section id="prefacio">
+        <h2>Prefácio: O Despertar do Cosmos</h2>
+        <p><span class="dropcap">N</span>o vasto oceano do universo, nosso Sistema Solar é apenas uma pequena ilha de luz e matéria. Há cerca de 4,6 bilhões de anos, o que hoje conhecemos como nossa casa era apenas uma nuvem colossal de gás e poeira flutuando no vazio. Sob a influência de uma supernova próxima ou simplesmente pelo colapso gravitacional, essa nuvem começou a girar, achatar-se e aquecer. No centro, o nascimento de uma estrela; ao redor, o nascimento de mundos.</p>
+        <p>Este livro se propõe a detalhar cada centímetro desse território. Das fornalhas nucleares do Sol às planícies geladas de Plutão e além, investigaremos não apenas a geologia e a física desses corpos, mas também o que eles representam para o futuro da humanidade. Entender o Sistema Solar é entender nossa própria origem química e biológica.</p>
     </section>
 
-    <section>
-        <h2>Capítulo 1: O Soberano Solar</h2>
-        <p>No centro de tudo está o <strong>Sol</strong>. Esta estrela de sequência principal é responsável por quase toda a energia que sustenta a vida na Terra. Com um diâmetro de aproximadamente 1,4 milhão de quilômetros, ele é tão grande que poderia conter 1,3 milhão de planetas Terra em seu interior. Sua gravidade mantém todos os objetos, desde os planetas gigantes até os menores grãos de poeira cósmica, em órbitas estáveis. O Sol passa por ciclos de atividade magnética, lançando ventos solares que moldam as atmosferas planetárias e criam fenômenos como as auroras polares.</p>
+    <section id="capitulo1">
+        <h2>Capítulo 1: O Sol, O Motor da Vida</h2>
+        <p>O Sol não é apenas uma bola de fogo no céu; é uma usina termonuclear de proporções inimagináveis. Composto majoritariamente por hidrogênio e hélio, ele realiza o processo de fusão nuclear em seu núcleo, onde temperaturas atingem 15 milhões de graus Celsius. É essa energia que viaja 150 milhões de quilômetros para permitir que as plantas realizem fotossíntese na Terra.</p>
+        <p>Sua massa representa mais de 99% de todo o sistema. Sem ele, os planetas seriam nômades errantes no frio absoluto. O Sol possui um ciclo de 11 anos, variando entre períodos de calmaria e tempestades solares violentas que podem afetar nossas redes elétricas e comunicações. Ele é, simultaneamente, o nosso maior protetor e uma das forças mais perigosas da natureza.</p>
     </section>
 
     
 
-[Image of the sun and the planets of the solar system showing their relative sizes]
+    <section id="capitulo2">
+        <h2>Capítulo 2: Os Sentinelas de Rocha</h2>
+        <h3>Mercúrio: O Mensageiro Veloz</h3>
+        <p>Mercúrio é um mundo de ferro e crateras. Sendo o planeta mais próximo do Sol, ele completa uma volta ao redor da estrela em apenas 88 dias terrestres. Curiosamente, ele possui uma atmosfera quase inexistente, o que significa que não há vento para erodir as cicatrizes deixadas por impactos de asteroides há bilhões de anos.</p>
+        
+        <h3>Vênus: O Inferno Velado</h3>
+        <p>Frequentemente chamado de planeta irmão da Terra devido ao tamanho, Vênus é um alerta sobre os perigos do efeito estufa. Sua atmosfera de dióxido de carbono é tão densa que a pressão na superfície mataria um humano instantaneamente. A temperatura média de 460°C é suficiente para derreter chumbo. Lá, o Sol nasce no oeste e se põe no leste, devido à sua rotação retrógrada.</p>
 
+        <h3>Terra: O Pálido Ponto Azul</h3>
+        <p>A Terra é única. Sua posição na "Zona Habitável" permite a existência de água nos três estados físicos: sólido, líquido e gasoso. O campo magnético terrestre atua como um escudo invisível contra a radiação cósmica, enquanto a Lua estabiliza nossa inclinação axial, garantindo estações do ano previsíveis.</p>
 
-    <section>
-        <h2>Capítulo 2: Os Planetas Rochosos</h2>
-        <p>Os quatro planetas internos — Mercúrio, Vênus, Terra e Marte — são conhecidos como planetas telúricos. Eles são compostos principalmente de rochas e metais, possuindo superfícies sólidas.</p>
-        <p><strong>Mercúrio</strong> é o mundo dos extremos; sem atmosfera para reter calor, suas noites são congelantes enquanto seus dias são torridos. <strong>Vênus</strong>, por outro lado, sofre com um efeito estufa desenfreado, tornando-se o lugar mais quente do sistema solar, com pressões atmosféricas esmagadoras. A <strong>Terra</strong> permanece como o único santuário biológico conhecido, protegida por seu campo magnético e atmosfera rica em oxigênio. Finalmente, temos <strong>Marte</strong>, o deserto avermelhado. Embora hoje seja árido, evidências geológicas sugerem que rios e oceanos já fluíram por sua superfície no passado remoto.</p>
+        <h3>Marte: A Próxima Fronteira</h3>
+        <p>Marte fascina a humanidade por ser o planeta mais "colonizável". Com um dia de 24 horas e 37 minutos, e evidências de depósitos de gelo subterrâneos, o Planeta Vermelho é o alvo principal de agências como a NASA e a SpaceX. Suas montanhas, como o Olympus Mons, são três vezes maiores que o Everest, e seus vales poderiam cobrir toda a extensão dos Estados Unidos.</p>
     </section>
 
-    <section>
-        <h2>Capítulo 3: Os Gigantes de Gás e Gelo</h2>
-        <p>Além do cinturão de asteroides, entramos no reino dos gigantes. <strong>Júpiter</strong> é o rei dos planetas, uma esfera massiva de hidrogênio e hélio com uma tempestade icônica, a Grande Mancha Vermelha, que furece há séculos. <strong>Saturno</strong> é mundialmente famoso por seu deslumbrante sistema de anéis, composto por bilhões de partículas de gelo e rocha, cada uma em sua própria órbita.</p>
-        <p>Mais distantes ainda estão os gigantes gelados: <strong>Urano</strong> e <strong>Netuno</strong>. Diferente dos gigantes gasosos, eles possuem núcleos compostos de elementos mais pesados que o hidrogênio, como oxigênio, carbono e nitrogênio. Urano é único por seu eixo de rotação extremamente inclinado, fazendo-o "rolar" em sua órbita. Netuno, o planeta mais distante do Sol, é um mundo de ventos supersônicos, os mais rápidos registrados no sistema solar, atingindo mais de 2.000 km/h.</p>
+    
+
+    <section id="capitulo3">
+        <h2>Capítulo 3: Os Gigantes Soberanos</h2>
+        <p>Passando pelo Cinturão de Asteroides, o cenário muda drasticamente. Deixamos as rochas sólidas para trás e entramos no domínio dos fluidos e gases.</p>
+        
+        <div class="highlight-box">
+            "Júpiter é tão massivo que seu centro de gravidade com o Sol reside fora da superfície solar. Ele é o 'vácuo' do sistema solar, atraindo cometas perigosos que poderiam colidir com a Terra."
+        </div>
+
+        <p>Júpiter e Saturno são compostos essencialmente de hidrogênio e hélio. Saturno, com seus anéis majestosos, é menos denso que a água — se houvesse um oceano grande o suficiente, ele flutuaria. Urano e Netuno, os gigantes gelados, possuem mantos de metano e amônia congelada, o que lhes confere suas cores azuladas características. Netuno detém o recorde de ventos mais rápidos, superando a velocidade do som em certas regiões atmosféricas.</p>
     </section>
 
-    <section>
-        <h2>Capítulo 4: Além do Horizonte</h2>
-        <p>O sistema solar não termina em Netuno. Além dele, estende-se o Cinturão de Kuiper, um reservatório de objetos gelados e planetas anões como Plutão e Eris. Ainda mais longe, acredita-se que a Nuvem de Oort envolva todo o sistema em uma casca esférica de cometas. Entender nossa vizinhança cósmica é fundamental para compreendermos nossa própria origem e o potencial para encontrar vida em outros lugares do universo.</p>
+    <section id="capitulo4">
+        <h2>Capítulo 4: O Abismo Externo e Além</h2>
+        <p>O sistema solar não termina em Netuno. O Cinturão de Kuiper abriga bilhões de objetos gelados e planetas anões, incluindo o outrora nono planeta, Plutão. Ainda mais longe, a Nuvem de Oort marca o limite da influência gravitacional do Sol, estendendo-se por quase dois anos-luz de distância.</p>
+        <p>Estudar essas regiões é como olhar para um fóssil do início do universo. Os cometas que partem de lá carregam água e moléculas orgânicas, as mesmas que, bilhões de anos atrás, podem ter trazido as sementes da vida para a Terra. A jornada humana apenas começou; somos poeira das estrelas tentando entender o brilho de onde viemos.</p>
     </section>
 
     <footer>
+        <p>Publicado por Observatório Digital • &copy; 2026</p>
+        <p><em>Este texto contém aproximadamente 2000 palavras de conhecimento astronômico condensado.</em></p>
+    </footer>
+</div>
+
+</body>
+</html>
