@@ -158,3 +158,179 @@
 </body>
 </html>
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missão Lua: 10k</title>
+    <style>
+        body { margin: 0; background: #05070a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png'), linear-gradient(to bottom, #000, #0a0a2e);
+            border: 3px solid #333;
+            overflow: hidden;
+        }
+
+        /* Astronauta */
+        #astronaut {
+            position: absolute;
+            bottom: 30px;
+            left: 180px;
+            width: 35px;
+            height: 45px;
+            background: #eee;
+            border-radius: 8px;
+            transition: left 0.1s ease-out;
+            z-index: 10;
+        }
+        #astronaut::before { content: ''; position: absolute; top: 5px; left: 5px; width: 25px; height: 15px; background: #333; border-radius: 4px; }
+
+        /* Meteoro */
+        .meteor {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #555;
+            border-radius: 50%;
+            box-shadow: -2px -2px 10px orange;
+        }
+
+        /* Lua (Objetivo Final) */
+        #moon {
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: #ddd;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255,255,255,0.2);
+            transition: top 2s ease-out;
+            z-index: 5;
+        }
+
+        /* Interface */
+        #ui { position: absolute; top: 10px; left: 10px; z-index: 20; width: 90%; }
+        #progress-bar { width: 100%; height: 10px; background: #222; border-radius: 5px; margin-top: 5px; }
+        #progress-fill { width: 0%; height: 100%; background: #00ffcc; border-radius: 5px; transition: width 0.3s; }
+
+        .screen {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px;
+            z-index: 100; display: none; border: 2px solid #00ffcc;
+        }
+
+        button { padding: 10px 25px; background: #00ffcc; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="ui">
+            <div>Pontos: <span id="score">0</span> / 10.000</div>
+            <div id="progress-bar"><div id="progress-fill"></div></div>
+        </div>
+
+        <div id="moon"></div>
+        <div id="astronaut"></div>
+
+        <div id="game-over" class="screen">
+            <h1>MISSÃO FALHOU!</h1>
+            <p>Os meteoros te atingiram.</p>
+            <button onclick="location.reload()">Tentar Novamente</button>
+        </div>
+
+        <div id="victory" class="screen">
+            <h1 style="color: #00ffcc;">VOCÊ CHEGOU NA LUA! 🌕</h1>
+            <p>Missão cumprida, Comandante.</p>
+            <button onclick="location.reload()">Jogar de Novo</button>
+        </div>
+    </div>
+
+    <script>
+        const astronaut = document.getElementById('astronaut');
+        const container = document.getElementById('game-container');
+        const scoreDisplay = document.getElementById('score');
+        const progressFill = document.getElementById('progress-fill');
+        const moon = document.getElementById('moon');
+        
+        let score = 0;
+        let pos = 180;
+        let active = true;
+        const targetScore = 10000;
+
+        // Movimento
+        document.addEventListener('keydown', (e) => {
+            if (!active) return;
+            if (e.key === 'ArrowLeft' && pos > 10) pos -= 25;
+            if (e.key === 'ArrowRight' && pos < 355) pos += 25;
+            astronaut.style.left = pos + 'px';
+        });
+
+        function createMeteor() {
+            if (!active || score >= targetScore) return;
+
+            const meteor = document.createElement('div');
+            meteor.className = 'meteor';
+            meteor.style.left = Math.random() * 370 + 'px';
+            meteor.style.top = '-40px';
+            container.appendChild(meteor);
+
+            let mTop = -40;
+            let fall = setInterval(() => {
+                if (!active) { clearInterval(fall); meteor.remove(); return; }
+
+                mTop += 7; // Velocidade dos meteoros
+                meteor.style.top = mTop + 'px';
+
+                // Colisão
+                let aRect = astronaut.getBoundingClientRect();
+                let mRect = meteor.getBoundingClientRect();
+
+                if (!(aRect.right < mRect.left || aRect.left > mRect.right || 
+                    aRect.bottom < mRect.top || aRect.top > mRect.bottom)) {
+                    active = false;
+                    document.getElementById('game-over').style.display = 'block';
+                }
+
+                if (mTop > 600) {
+                    clearInterval(fall);
+                    meteor.remove();
+                    if (active) {
+                        score += 250; // Cada meteoro desviado dá 250 pontos
+                        if (score > targetScore) score = targetScore;
+                        updateUI();
+                    }
+                }
+            }, 20);
+        }
+
+        function updateUI() {
+            scoreDisplay.innerText = score;
+            let percent = (score / targetScore) * 100;
+            progressFill.style.width = percent + '%';
+
+            if (score >= targetScore) {
+                win();
+            }
+        }
+
+        function win() {
+            active = false;
+            moon.style.top = '50px'; // Lua desce
+            setTimeout(() => {
+                document.getElementById('victory').style.display = 'block';
+            }, 1500);
+        }
+
+        // Inicia o fluxo de meteoros
+        setInterval(createMeteor, 600);
+    </script>
+</body>
+</html>
