@@ -388,3 +388,81 @@
 </html>
 
 <a href="livros.html" class="btn-livros"> Livro sobre sistema solar</a>
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA - Galeria de Livros Espaciais</title>
+    <style>
+        :root {
+            --nasa-blue: #0b3d91;
+            --nasa-red: #fc3d21;
+            --glass-dark: rgba(0, 0, 0, 0.75);
+            --text-color: #f1f1f1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            /* Imagem de fundo da NASA */
+            background-image: url('http://googleusercontent.com/image_collection/image_retrieval/2563974255723359607_1');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #050505;
+        }
+
+        /* Camada de sobreposição para escurecer a imagem e facilitar a leitura */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        header {
+            background: rgba(11, 61, 145, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 3px solid var(--nasa-red);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .book-card {
+            background: var(--glass-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            border-color: var(--nasa-red);
+            transform: scale(1.02);
+        }
+
+        .badge {
+            background: var(--nasa-red);
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font
