@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA - Sistema Solar em Tempo Real</title>
+    <style>
+        /* Reset básico e estilo do corpo */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Evita barras de rolagem extras */
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        /* Barra de navegação superior */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            position: absolute;
+            width: 100%;
+            z-index: 10;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-nasa {
+            background-color: #0b3d91;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .btn-nasa:hover {
+            background-color: #105bd8;
+        }
+
+        /* Container do Iframe para ocupar a tela toda */
+        .iframe-container {
+            width: 100vw;
+            height: 100vh;
+            padding-top: 60px; /* Espaço para o cabeçalho */
+            box-sizing: border-box;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Explorador do Sistema Solar</h1>
+        <a href="https://eyes.nasa.gov/apps/solar-system/#/home" target="_blank" class="btn-nasa">Abrir no site da NASA</a>
+    </header>
+
+    <div class="iframe-container">
+        <iframe src="https://eyes.nasa.gov/apps/solar-system/#/home" allowfullscreen></iframe>
+    </div>
+
+</body>
+</html>
